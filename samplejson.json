@@ -1,0 +1,529 @@
+[{
+		"id": "62b1928c-7331-02a3-bc74-3dba18ca91a2",
+		"modelId": "dtmi:com:willowinc:FanPoweredBox;1",
+		"twinId": "WLW-NYC-575_5_AVE-FPB-17.02",
+		"name": "Variable Air Volume Box VAV-01.1",
+		"hasLiveData": true,
+		"categoryId": "00300000-0000-0000-0000-000000010976",
+		"categoryName": "Fan Powered Box",
+		"floorId": "b7d170fd-48fd-4392-a4e9-1ad5880edc62",
+		"identifier": "VAV-01.1",
+		"forgeViewerModelId": "b7d170fd-48fd-4392-a4e9-1ad5880edc62",
+		"tags": [{
+				"name": "equip"
+			},
+			{
+				"name": "hvac"
+			},
+			{
+				"name": "fpb"
+			},
+			{
+				"name": "coolOnly"
+			}
+		],
+		"points": [{
+			"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+			"modelId": "dtmi:com:willowinc:TemperatureSensor;1",
+			"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-ZAT",
+			"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+			"externalId": "11011AI6",
+			"name": "Zone Air Temperature Sensor",
+			"description": "FPB 17.02 - Zone Temperature Sensor",
+			"tags": [{
+					"name": "zone"
+				},
+				{
+					"name": "air"
+				},
+				{
+					"name": "temp",
+					"feature": "3d"
+				},
+				{
+					"name": "sensor"
+				}
+			],
+			"type": "analog",
+			"currentValue": {
+				"value": 22.5863236278265,
+				"unit": "degC"
+			},
+			"displayPriority": 1,
+			"assets": [{
+					"id": "12a81670-1b05-465f-940f-ec5371843e34",
+					"name": "FPB 17.02",
+					"categoryName": "Fan Powered Box"
+				},
+				{
+					"id": "09ade39f-a69a-4d95-a8e0-dc28309874e4",
+					"name": "BACnet Controller 17.1",
+					"categoryName": "Controller"
+				}
+			],
+			"trenedInterval": 1200,
+			"isEnabled": true,
+			"isDetected": true,
+			"deviceId": "19f770eb-b77f-4c35-b479-63d2c08f35b6",
+			"categoryName": "Temperature Sensor",
+			"properties": {
+				"property1": {
+					"displayName": "phenomenon",
+					"value": "Water",
+					"kind": "string"
+				}
+			},
+			"metadata": [{
+				"key": "manufacturer",
+				"value": "omega",
+				"dataType": "string"
+			}]
+		}],
+		"parentId": "d27058e5-32cb-4411-992b-0804dbdb929d",
+		"assetParameters": [{
+				"key": "assetType",
+				"displayName": "Asset Type",
+				"value": "Terminal Unit - VAV Box"
+			},
+			{
+				"key": "specificationSection",
+				"displayName": "Specification Section",
+				"value": "23 36 00"
+			},
+			{
+				"key": "roomNumber",
+				"displayName": "Room Number",
+				"value": "01-104"
+			},
+			{
+				"key": "maxAirflowRating",
+				"displayName": "Maximum Airflow Rating (CFM)",
+				"value": 300
+			},
+			{
+				"key": "zoneTempSetpoint",
+				"displayName": "Zone Air Temperature Setpoint",
+				"value": 75
+			}
+		]
+	},
+	{
+		"id": "62b1928c-7331-02a3-bc74-3dba18ca91a3",
+		"modelId": "dtmi:com:willowinc:FanPoweredBox;2",
+		"twinId": "WLW-NYC-575_5_AVE-FPB-17.03",
+		"name": "Variable Air Volume Box VAV-01.2",
+		"hasLiveData": true,
+		"categoryId": "00300000-0000-0000-0000-000000010977",
+		"categoryName": "Fan Powered Box",
+		"floorId": "b7d170fd-48fd-4392-a4e9-1ad5880edc62",
+		"identifier": "VAV-01.2",
+		"forgeViewerModelId": "b7d170fd-48fd-4392-a4e9-1ad5880edc63",
+		"tags": [{
+				"name": "equip"
+			},
+			{
+				"name": "hvac"
+			},
+			{
+				"name": "fpb"
+			},
+			{
+				"name": "coolOnly"
+			}
+		],
+		"points": [{
+			"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+			"modelId": "dtmi:com:willowinc:TemperatureSensor;2",
+			"twinId": "WLW-NYC-575_5_AVE-FPB-17.03-ZAT",
+			"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb3",
+			"externalId": "11011AI6",
+			"name": "zone air temp sensor point",
+			"description": "FPB 17.03 - Zone Temperature Sensor",
+			"tags": [{
+					"name": "zone"
+				},
+				{
+					"name": "air"
+				},
+				{
+					"name": "temp",
+					"feature": "3d"
+				},
+				{
+					"name": "sensor"
+				}
+			],
+			"type": "analog",
+			"currentValue": {
+				"value": 22.5863236278265,
+				"unit": "degC"
+			},
+			"displayPriority": 1,
+			"assets": [{
+					"id": "12a81670-1b05-465f-940f-ec5371843e35",
+					"name": "FPB 17.03",
+					"categoryName": "Fan Powered Box"
+				},
+				{
+					"id": "09ade39f-a69a-4d95-a8e0-dc28309874e4",
+					"name": "BACnet Controller 17.1",
+					"categoryName": "Controller"
+				}
+			],
+			"trenedInterval": 1200,
+			"isEnabled": true,
+			"isDetected": true,
+			"deviceId": "19f770eb-b77f-4c35-b479-63d2c08f35b7",
+			"categoryName": "Temperature Sensor",
+			"properties": {
+				"property1": {
+					"displayName": "phenomenon",
+					"value": "Water",
+					"kind": "string"
+				}
+			},
+			"metadata": [{
+				"key": "manufacturer",
+				"value": "omega",
+				"dataType": "string"
+			}]
+		}],
+		"parentId": "d27058e5-32cb-4411-992b-0804dbdb929d",
+		"assetParameters": [{
+				"key": "assetType",
+				"displayName": "Asset Type",
+				"value": "Terminal Unit - VAV Box"
+			},
+			{
+				"key": "specificationSection",
+				"displayName": "Specification Section",
+				"value": "23 36 00"
+			},
+			{
+				"key": "roomNumber",
+				"displayName": "Room Number",
+				"value": "01-104"
+			},
+			{
+				"key": "maxAirflowRating",
+				"displayName": "Maximum Airflow Rating (CFM)",
+				"value": 300
+			},
+			{
+				"key": "zoneTempSetpoint",
+				"displayName": "zone Air temp sp point",
+				"value": 75
+			}
+		]
+	},
+	{
+		"id": "62b1928c-7331-02a3-bc74-3dba18ca91a12",
+		"modelId": "dtmi:com:willowinc:AHU;1",
+		"twinId": "WLW-NYC-575_5_AVE-AHU-17.02",
+		"name": "Air Handling Unit-01.1",
+		"hasLiveData": true,
+		"categoryId": "00300000-0000-0000-0000-0000000109762",
+		"categoryName": "AHU",
+		"floorId": "b7d170fd-48fd-4392-a4e9-1ad5880edc62",
+		"identifier": "AHU-01.1",
+		"forgeViewerModelId": "b7d170fd-48fd-4392-a4e9-1ad5880edc65",
+		"tags": [{
+				"name": "equip"
+			},
+			{
+				"name": "hvac"
+			},
+			{
+				"name": "ahu"
+			},
+			{
+				"name": "coolOnly"
+			}
+		],
+		"points": [{
+				"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"modelId": "dtmi:com:willowinc:TemperatureSensor;3",
+				"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-SAT",
+				"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"externalId": "11011AI6",
+				"name": "discharge air temp sensor point",
+				"description": "AHU 17.02 - discharge air temperature sensor point",
+				"tags": [{
+						"name": "discharge"
+					},
+					{
+						"name": "air"
+					},
+					{
+						"name": "temp",
+						"feature": "3d"
+					},
+					{
+						"name": "sensor"
+					},
+					{
+						"name": "point"
+					}
+				],
+				"type": "analog",
+				"currentValue": {
+					"value": 30.5863236278265,
+					"unit": "degC"
+				},
+				"displayPriority": 1,
+				"assets": [{
+						"id": "12a81670-1b05-465f-940f-ec5371843e34",
+						"name": "AHU 17.03",
+						"categoryName": "AHU"
+					},
+					{
+						"id": "09ade39f-a69a-4d95-a8e0-dc28309874e4",
+						"name": "BACnet Controller 17.1",
+						"categoryName": "Controller"
+					}
+				],
+				"trenedInterval": 1200,
+				"isEnabled": true,
+				"isDetected": true,
+				"deviceId": "19f770eb-b77f-4c35-b479-63d2c08f35b6",
+				"categoryName": "Temperature Sensor",
+				"properties": {
+					"property1": {
+						"displayName": "phenomenon",
+						"value": "Water",
+						"kind": "string"
+					}
+				},
+				"metadata": [{
+					"key": "manufacturer",
+					"value": "omega",
+					"dataType": "string"
+				}]
+			},
+			{
+				"id": "0fcd55ad-251d-4111-bed9-de32c7addb54",
+				"modelId": "dtmi:com:willowinc:TemperatureSensor;3",
+				"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-FanSts",
+				"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb54",
+				"externalId": "11011AI6",
+				"name": "discharge fan run sensor point",
+				"description": "AHU 17.02 - discharge fan run sensor point",
+				"tags": [{
+						"name": "discharge"
+					},
+					{
+						"name": "fan"
+					},
+					{
+						"name": "run"
+					},
+					{
+						"name": "sensor"
+					},
+					{
+						"name": "point"
+					}
+				],
+				"type": "analog",
+				"currentValue": {
+					"value": 1,
+					"unit": "On/Off"
+				},
+				"displayPriority": 1,
+				"assets": [{
+						"id": "12a81670-1b05-465f-940f-ec5371843e34",
+						"name": "AHU 17.03",
+						"categoryName": "AHU"
+					},
+					{
+						"id": "09ade39f-a69a-4d95-a8e0-dc28309874e4",
+						"name": "BACnet Controller 17.1",
+						"categoryName": "Controller"
+					}
+				],
+				"trenedInterval": 1200,
+				"isEnabled": true,
+				"isDetected": true,
+				"deviceId": "19f770eb-b77f-4c35-b479-63d2c08f35b6",
+				"categoryName": "On/Off Sensor",
+				"properties": {
+					"property1": {
+						"displayName": "phenomenon",
+						"value": "Water",
+						"kind": "string"
+					}
+				},
+				"metadata": [{
+					"key": "manufacturer",
+					"value": "omega",
+					"dataType": "string"
+				}]
+			},
+			{
+				"id": "0fcd55ad-251d-4111-bed9-de32c7addb55",
+				"modelId": "dtmi:com:willowinc:TemperatureSensor;5",
+				"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-ZoneT",
+				"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb54",
+				"externalId": "11011AI6",
+				"name": "zone air temp sensor point",
+				"description": "AHU 17.02 - zone air temp sensor point",
+				"tags": [{
+						"name": "zone"
+					},
+					{
+						"name": "air"
+					},
+					{
+						"name": "temp"
+					},
+					{
+						"name": "sensor"
+					},
+					{
+						"name": "point"
+					}
+				],
+				"type": "analog",
+				"currentValue": {
+					"value": 25,
+					"unit": "degC"
+				},
+				"displayPriority": 1,
+				"assets": [{
+						"id": "12a81670-1b05-465f-940f-ec5371843e34",
+						"name": "AHU 17.03",
+						"categoryName": "AHU"
+					},
+					{
+						"id": "09ade39f-a69a-4d95-a8e0-dc28309874e4",
+						"name": "BACnet Controller 17.1",
+						"categoryName": "Controller"
+					}
+				],
+				"trenedInterval": 1200,
+				"isEnabled": true,
+				"isDetected": true,
+				"deviceId": "19f770eb-b77f-4c35-b479-63d2c08f35b7",
+				"categoryName": "Temperature Sensor",
+				"properties": {
+					"property1": {
+						"displayName": "phenomenon",
+						"value": "Water",
+						"kind": "string"
+					}
+				},
+				"metadata": [{
+					"key": "manufacturer",
+					"value": "omega",
+					"dataType": "string"
+				}]
+			},
+			{
+				"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"modelId": "dtmi:com:willowinc:TemperatureSensor;4",
+				"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-MAT",
+				"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"externalId": "11011AI6",
+				"name": "mixed air temp sensor point",
+				"description": "AHU 17.02 - mixed air temperature sensor point",
+				"tags": [{
+						"name": "mixed"
+					},
+					{
+						"name": "air"
+					},
+					{
+						"name": "temp",
+						"feature": "3d"
+					},
+					{
+						"name": "sensor"
+					},
+					{
+						"name": "point"
+					}
+				],
+				"type": "analog",
+				"currentValue": {
+					"value": 22.5863236278265,
+					"unit": "degC"
+				},
+				"displayPriority": 1,
+				"assets": [{
+						"id": "12a81670-1b05-465f-940f-ec5371843e34",
+						"name": "AHU 17.03",
+						"categoryName": "AHU"
+					},
+					{
+						"id": "09ade39f-a69a-4d95-a8e0-dc28309874e4",
+						"name": "BACnet Controller 17.1",
+						"categoryName": "Controller"
+					}
+				],
+				"trenedInterval": 1200,
+				"isEnabled": true,
+				"isDetected": true,
+				"deviceId": "19f770eb-b77f-4c35-b479-63d2c08f35b6",
+				"categoryName": "Temperature Sensor",
+				"properties": {
+					"property1": {
+						"displayName": "phenomenon",
+						"value": "Water",
+						"kind": "string"
+					}
+				},
+				"metadata": [{
+					"key": "manufacturer",
+					"value": "omega",
+					"dataType": "string"
+				}]
+			}
+		],
+		"assetParameters": [{
+				"key": "assetType",
+				"displayName": "Asset Type",
+				"value": "AHU"
+			},
+			{
+				"key": "specificationSection",
+				"displayName": "Specification Section",
+				"value": "23 36 00"
+			},
+			{
+				"key": "roomNumber",
+				"displayName": "Room Number",
+				"value": "01-104"
+			},
+			{
+				"key": "maxAirflowRating",
+				"displayName": "Maximum Airflow Rating (CFM)",
+				"value": 300
+			},
+			{
+				"key": "DischargeTempSetpoint",
+				"displayName": "discharge air temp sp point",
+				"value": 75
+			},
+			{
+				"key": "MixedTempSetpoint",
+				"displayName": "mixed air temp sp point",
+				"value": 80
+			},
+			{
+				"key": "ZoneClgTempSetpoint",
+				"displayName": "zone air temp occ cooling sp point",
+				"value": 80
+			},
+			{
+				"key": "MixedTempSetpoint",
+				"displayName": "zone air temp occ heating sp point",
+				"value": 80
+			},
+			{
+				"key": "Faults",
+				"displayName": "SpaceOverCooling",
+				"value": "False"
+			}
+		]
+	}
+]
