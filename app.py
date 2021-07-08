@@ -19,29 +19,19 @@ class Tags(db.EmbeddedDocument):
     feature = db.StringField()
 
 class CurrentValue(db.EmbeddedDocument):
-    value = db.StringField()
+    value = db.DynamicField()
     unit = db.StringField()
-    
+
 class AssetParameters(db.EmbeddedDocument):
     key = db.StringField()
     displayName = db.StringField()
-    value = db.StringField()
+    value = db.DynamicField()
 
 class Assets(db.EmbeddedDocument):
     _id = db.StringField()
     id = db.StringField(db_field='id')
     name = db.StringField()
     categoryName = db.StringField()
-
-class Properties(db.EmbeddedDocument):
-    kind = db.StringField()
-    displayName = db.StringField()
-    value = db.StringField()
-
-class Metadata(db.EmbeddedDocument):
-    key = db.StringField()
-    dataType = db.StringField()
-    value = db.StringField()
 
 class Points(db.EmbeddedDocument):
     _id = db.StringField()
@@ -53,7 +43,7 @@ class Points(db.EmbeddedDocument):
     description = db.StringField()
     tags = db.EmbeddedDocumentListField(Tags)
     type = db.StringField()
-    currentValue = db.EmbeddedDocumentListField(CurrentValue)
+    currentValue = db.EmbeddedDocumentField(CurrentValue)
     displayPriority = db.IntField()
     assets = db.EmbeddedDocumentListField(Assets)
     type = db.StringField()
@@ -62,9 +52,9 @@ class Points(db.EmbeddedDocument):
     isDetected = db.BooleanField(default=False)
     deviceId = db.StringField()
     categoryName = db.StringField()
-    properties = db.EmbeddedDocumentListField(Properties)
-    metadata = db.EmbeddedDocumentListField(Metadata)
-    
+    properties = db.DynamicField()
+    metadata = db.DynamicField()
+
 class Asset(db.DynamicDocument):
     _id = db.StringField()
     id = db.StringField(db_field='id')
@@ -82,43 +72,105 @@ class Asset(db.DynamicDocument):
     parentId = db.StringField()
     assetParameters = db.EmbeddedDocumentListField(AssetParameters)
 
-asset = Asset(_id = "ee349ca0-f8aa-4b83-9fc6-86d727399914",
-            modelId = "Unitary HP",
-            twinId = "6b25c3c7-39e4-4be7-84a9-17e80feecaf5")
-asset.save()            
-asset1 = Asset(_id = "ce731aa1-fb9c-40b9-8f6b-ec6c42c9eadb",
-            modelId = "Fan",
-            name = "ee349ca0-f8aa-4b83-9fc6-86d727399914")
-asset1.save()    
-asset2 = Asset(_id = "bf34cfc8-cfe2-44d0-bf0a-ce462e2dc1c2",
-             modelId = "Return_Air_Temperature_Sensor",
-             name = "ee349ca0-f8aa-4b83-9fc6-86d727399914")
-asset2.save()
-asset3 = Asset(_id = "af34cfc8-cfe2-44d0-bf0a-ce462e2dc1c1",
-            modelId = "FanSpeed",
-            name = "ce731aa1-fb9c-40b9-8f6b-ec6c42c9eadb")
-asset3.save()
 
-asset4 = Asset(_id = "62b1928c-7331-02a3-bc74-3dba18ca91a2",
-                modelId = "dtmi:com:willowinc:FanPoweredBox;1",
-                twinId = "WLW-NYC-575_5_AVE-FPB-17.02",
-                name = "Variable Air Volume Box VAV-01.1",
-                hasLiveData = True,
-                categoryId = "00300000-0000-0000-0000-000000010976",
-                categoryName = "Fan Powered Box",
-                floorId = "b7d170fd-48fd-4392-a4e9-1ad5880edc62",
-                identifier = "VAV-01.1",
-                forgeViewerModelId = "b7d170fd-48fd-4392-a4e9-1ad5880edc62")
+#asset4 = Asset(_id = "62b1928c-7331-02a3-bc74-3dba18ca91a2",
+#                modelId = "dtmi:com:willowinc:FanPoweredBox;1",
+#                twinId = "WLW-NYC-575_5_AVE-FPB-17.02",
+#                name = "Variable Air Volume Box VAV-01.1",
+#                hasLiveData = True,
+#                categoryId = "00300000-0000-0000-0000-000000010976",
+#                categoryName = "Fan Powered Box",
+#                floorId = "b7d170fd-48fd-4392-a4e9-1ad5880edc62",
+#                identifier = "VAV-01.1",
+#                forgeViewerModelId = "b7d170fd-48fd-4392-a4e9-1ad5880edc62")
+
 #asset4.tags = [
 #    Tags(name="equip"),
 #    Tags(name="havc")
 #]
-tag = Tags(name="equip")
-asset4.tags.append(tag)
-tag = Tags(name="hvac")
-asset4.tags.append(tag)
-asset4.save()
+#tag = Tags(name="equip")
+#asset4.tags.append(tag)
+#tag = Tags(name="hvac")
+#asset4.tags.append(tag)
+#asset4.save()
 
+f = open('samplejson.json',)
+data = json.load(f)
+f.close()
+            
+for dt in data:
+    #asset = Asset(_id = dt['id'])
+    asset = Asset()
+    asset._id = dt['id']
+   #asset.modelId = dt['modelId']
+    for key in dt:
+        #print('FIRST: %s: %s'%(key,dt[key]))
+        if key != "id":
+            if key == "tags":
+                for tag in dt[key]:
+                    #print('TAG: %s: %s'%(tag,tag['name']))
+                    t = Tags(name=tag['name'])
+                    asset.tags.append(t)
+                    #asset.save()
+                    #print('asset: %s'%(asset.to_json()))
+            elif key == "assetParameters":
+                for item in dt[key]:
+                    ap = AssetParameters()
+                    #print('AP item: %s'%(item))
+                    for key in item:
+                        #print('AP key: %s: %s'%(key,item[key]))
+                        setattr(ap, key, item[key])    
+                    asset.assetParameters.append(ap)
+                    #print('asset: %s'%(asset.to_json()))
+                    #asset.save()
+            elif key == "points":
+                for item in dt[key]:
+                    point = Points()
+                    #print('POINT item: %s'%(item))
+                    for key in item:
+                        #print('POINT key: %s: %s'%(key,item[key]))
+                        if key == "tags":
+                            for tag in item[key]:
+                                #print('TAG: %s: %s'%(tag,tag['name']))
+                                t = Tags(name=tag['name'])
+                                if 'feature' in tag.keys():
+                                    setattr(t, 'feature', tag['feature'])
+                                point.tags.append(t)
+                                #print('point: %s'%(point.to_json()))
+                        elif key == "currentValue":
+                            #print("type(item[key]): %s"%(type(item[key])))
+                            cv = CurrentValue()
+                            setattr(cv, 'unit', item[key]['unit'])
+                            setattr(cv, 'value', item[key]['value'])
+                            point.currentValue = cv
+                            #print('point: %s'%(point.to_json()))
+                        elif key == "assets":
+                            for assets in item[key]:
+                                at = Assets()
+                                for keys in assets:
+                                    #print('AP key: %s: %s'%(key,item[key]))
+                                    setattr(at, keys, assets[keys])    
+                                point.assets.append(at)
+                        elif key == "properties":
+                            point.properties = {"property1": {"displayName": "phenomenon",
+                                                              "value": "Water",
+                                                              "kind": "string"}
+                                               }
+                        elif key == "metadata":
+                            point.metadata = [{"key": "manufacturer",
+                                               "value": "omega",
+				                               "dataType": "string"
+			                                 }]
+                        else:                            
+                            setattr(point, key, item[key])
+                    #done loop over point keys
+                    asset.points.append(point)
+                    print('asset: %s'%(asset.to_json()))
+                    asset.save()
+            else:
+                setattr(asset, key, dt[key])
+
+    asset.save()
 #
 #r = requests.get('http://localhost:5002/', params = {"_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914"})
 #r.text
