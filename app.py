@@ -184,7 +184,7 @@ def get_all_assets():
     asset = Asset.objects()
     return asset.to_json(), 200
 
-# Retrieve an Asset     
+# Retrieve an Asset (send asset ID)    
 
 #r = requests.get(url=URL+'assets/', params = {"id": "62b1928c-7331-02a3-bc74-3dba18ca91a3"})
 #r.text
@@ -204,37 +204,69 @@ def query_assets():
 def get_one_assets(id: str):
     asset = Asset.objects.get_or_404(_id=id)
     return asset.to_json(), 200
+     
+# List Assets (send categoryId and get all assets with categoryId)
 
-#TODO        
-# List Asset Categories
-
-#r = requests.get(url=URL+'categories')
+#categoryId = "00300000-0000-0000-0000-000000010977"
+#r = requests.get(url=URL+'categories/'+categoryId+'/assets')
 #r.text
 #
-@app.route('/categories', methods=['GET'])
-def query_categories():
-    pipeline = [{'$group': 
-                  { '_id': {'categoryId': '$categoryId'}
-                  }
-                }]
+@app.route('/categories/<id>/assets', methods=['GET'])
+def query_categoryId(id: str):
+    print(id)
+    pipeline = [{'$match':
+                  { '$and': [{"categoryId": id}] }
+               }]
     asset = Asset.objects().aggregate(pipeline)
-    print(list(asset))
     if not asset:
         return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
-        return Response(asset, mimetype="application/json", status=200)
+        value = list(asset)
+        #print(value)
+        for item in value:
+            if item['categoryId'] == id:
+                print(item)
+                return Response(json.dumps(item), mimetype="application/json", status=200)
+            else:
+                return Response({'ASSET Not Found'}, mimetype="application/json", status=404)
 
-#TODO
+# List Assets (send categoryId and get all assets with categoryId)
 #
-#http://localhost:5002/assets/62b1928c-7331-02a3-bc74-3dba18ca91a3
+#http://localhost:5002/categories/00300000-0000-0000-0000-000000010977/assets
+#
+@app.route('/categories/<id>/assets')
+def get_categoryId(id: str):
+    pipeline = [{'$match':
+                  { '$and': [{"categoryId": id}] }
+               }]
+    asset = Asset.objects().aggregate(pipeline)
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        value = list(asset)
+        #print(value)
+        for item in value:
+            if item['categoryId'] == id:
+                print(item)
+                return Response(json.dumps(item), mimetype="application/json", status=200)
+            else:
+                return Response({'ASSET Not Found'}, mimetype="application/json", status=404)
+
+# List Asset categories (get all categoryIds)
+#
+#http://localhost:5002/categories/
 #
 @app.route('/categories')
-def get_categories(id: str):
-    asset = Asset.objects.aggregate([{'$group': { 'categoryId': '$categoryId'}}])
+def get_categories():
+    asset = Asset.objects().distinct('categoryId')
+    #print(asset)
     if not asset:
         return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
-        return Response(asset, status=200)
+        return Response(json.dumps(asset), mimetype="application/json", status=200)
+
+
+
 #POINTS
 # List Points (give asset Id and get points)     
 #http://localhost:5002/points?id=62b1928c-7331-02a3-bc74-3dba18ca91a12
@@ -268,7 +300,7 @@ def find_assets_points():
 def query_point():
     id = request.args.get('id')
     pipeline = [{'$match':
-                  { '$and': [{"points.id": "0fcd55ad-251d-4111-bed9-de32c7addb52"}] }
+                  { '$and': [{"points.id": id}] }
                }]
     asset = Asset.objects().aggregate(pipeline)
     if not asset:
@@ -289,7 +321,7 @@ def query_point():
 @app.route('/points/<id>')
 def get_one_point(id: str):
     pipeline = [{'$match':
-                  { '$and': [{"points.id": "0fcd55ad-251d-4111-bed9-de32c7addb52"}] }
+                  { '$and': [{"points.id": id}] }
                }]
     asset = Asset.objects().aggregate(pipeline)
     if not asset:
