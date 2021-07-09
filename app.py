@@ -243,7 +243,7 @@ def get_categories(id: str):
 @app.route('/points/', methods=['GET'])
 def query_points():
     id = request.args.get('id')
-    asset = Asset.objects().points.filter(id=id)
+    asset = Asset.objects().filter({"points": {"id": id}})
     if not asset:
         return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
@@ -253,8 +253,16 @@ def query_points():
 #
 @app.route('/points/<id>')
 def get_one_points(id: str):
-    asset = Asset.objects().points.filter(id=id)
-    return asset.to_json(), 200
+    pipeline = [{'$group': 
+                  { '_id': "$points.id" }
+                }]
+    asset = Asset.objects().aggregate(pipeline)
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        value = list(asset)
+        print(value)
+        return Response(json.dumps(value), mimetype="application/json", status=200)
 
 
 ###########################    
