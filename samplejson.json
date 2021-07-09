@@ -26,7 +26,7 @@
 			"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
 			"modelId": "dtmi:com:willowinc:TemperatureSensor;1",
 			"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-ZAT",
-			"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+			"trendId": "1fcd55ad-251d-4111-bed9-de32c7addb52",
 			"externalId": "11011AI6",
 			"name": "Zone Air Temperature Sensor",
 			"description": "FPB 17.02 - Zone Temperature Sensor",
@@ -132,7 +132,7 @@
 			}
 		],
 		"points": [{
-			"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+			"id": "0fcd55ad-251d-4111-bed9-de32c7addb42",
 			"modelId": "dtmi:com:willowinc:TemperatureSensor;2",
 			"twinId": "WLW-NYC-575_5_AVE-FPB-17.03-ZAT",
 			"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb3",
@@ -241,10 +241,10 @@
 			}
 		],
 		"points": [{
-				"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"id": "0fcd55ad-251d-4111-bed9-de32c7addb62",
 				"modelId": "dtmi:com:willowinc:TemperatureSensor;3",
 				"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-SAT",
-				"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"trendId": "0fcd55ad-251d-4111-bed9-de32c7adda52",
 				"externalId": "11011AI6",
 				"name": "discharge air temp sensor point",
 				"description": "AHU 17.02 - discharge air temperature sensor point",
@@ -419,10 +419,10 @@
 				}]
 			},
 			{
-				"id": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"id": "0fcd55ad-251d-4111-bed9-de32c7addb82",
 				"modelId": "dtmi:com:willowinc:TemperatureSensor;4",
 				"twinId": "WLW-NYC-575_5_AVE-FPB-17.02-MAT",
-				"trendId": "0fcd55ad-251d-4111-bed9-de32c7addb52",
+				"trendId": "0fcd55ad-251d-4111-bed9-de32c6addb52",
 				"externalId": "11011AI6",
 				"name": "mixed air temp sensor point",
 				"description": "AHU 17.02 - mixed air temperature sensor point",

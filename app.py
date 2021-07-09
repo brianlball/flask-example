@@ -2,6 +2,7 @@
 import json
 from flask import Flask, request, jsonify, Response
 from flask_mongoengine import MongoEngine
+from bson import json_util
 
 # create the Flask app
 app = Flask(__name__)
@@ -235,40 +236,76 @@ def get_categories(id: str):
     else:
         return Response(asset, status=200)
 #POINTS
-# Retrieve a Point     
+# List Points (give asset Id and get points)     
+#http://localhost:5002/points?id=62b1928c-7331-02a3-bc74-3dba18ca91a12
+#r = requests.get(url=URL+'points', params = {"id": "62b1928c-7331-02a3-bc74-3dba18ca91a12"})
+#print(r)
+#print(r.json())
+#
+@app.route('/points', methods=['GET'])
+def find_assets_points():
+    id = request.args.get('id')
+    asset = Asset.objects(_id=id).first()
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        points = asset.points
+        return_points = []
+        print(len(points))
+        for i in range(0, len(points)):
+            print(i)
+            print(points[i].to_json())
+            return_points.append(points[i].to_json())
+        return Response(json.dumps(return_points), mimetype="application/json", status=200)
+
+
+#Retrieve a Point (give point id and get it)
 
 #r = requests.get(url=URL+'points/', params = {"id": "0fcd55ad-251d-4111-bed9-de32c7addb52"})
 #r.text
 #
 @app.route('/points/', methods=['GET'])
-def query_points():
+def query_point():
     id = request.args.get('id')
-    pipeline = [{'$group': 
-                  { '_id': "$points.id" }
-                }]
+    pipeline = [{'$match':
+                  { '$and': [{"points.id": "0fcd55ad-251d-4111-bed9-de32c7addb52"}] }
+               }]
     asset = Asset.objects().aggregate(pipeline)
     if not asset:
         return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
         value = list(asset)
-        print(value)
-        return Response(json.dumps(value), mimetype="application/json", status=200)
+        #print(value)
+        for item in value:
+            for point in item['points']:
+                if point['id'] == id:
+                    print(point)
+                    return Response(json.dumps(point), mimetype="application/json", status=200)
+                else:
+                    return Response({'POINT Not Found'}, mimetype="application/json", status=404)
 
 #http://localhost:5002/points/0fcd55ad-251d-4111-bed9-de32c7addb52
 #
 @app.route('/points/<id>')
-def get_one_points(id: str):
-    pipeline = [{'$group': 
-                  { '_id': "$points.id" }
-                }]
+def get_one_point(id: str):
+    pipeline = [{'$match':
+                  { '$and': [{"points.id": "0fcd55ad-251d-4111-bed9-de32c7addb52"}] }
+               }]
     asset = Asset.objects().aggregate(pipeline)
     if not asset:
         return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
         value = list(asset)
-        print(value)
-        return Response(json.dumps(value), mimetype="application/json", status=200)
+        #print(value)
+        for item in value:
+            for point in item['points']:
+                if point['id'] == id:
+                    print(point)
+                    return Response(json.dumps(point), mimetype="application/json", status=200)
+                else:
+                    return Response({'POINT Not Found'}, mimetype="application/json", status=404)
 
+        
 
 ###########################    
 #PUTs
