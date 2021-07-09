@@ -1,6 +1,6 @@
 # import main Flask class and request object
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from flask_mongoengine import MongoEngine
 
 # create the Flask app
@@ -165,40 +165,101 @@ for dt in data:
                             setattr(point, key, item[key])
                     #done loop over point keys
                     asset.points.append(point)
-                    print('asset: %s'%(asset.to_json()))
-                    asset.save()
+                    #print('asset: %s'%(asset.to_json()))
+                    #asset.save()
             else:
                 setattr(asset, key, dt[key])
 
     asset.save()
+###########################    
+#GETs
+###########################
+
+# All Assets
+#http://localhost:5002/all_assets
 #
-#r = requests.get('http://localhost:5002/', params = {"_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914"})
+@app.route('/all_assets')
+def get_all_assets():
+    asset = Asset.objects()
+    return asset.to_json(), 200
+
+# Retrieve an Asset     
+
+#r = requests.get(url=URL+'assets/', params = {"id": "62b1928c-7331-02a3-bc74-3dba18ca91a3"})
 #r.text
 #
-@app.route('/', methods=['GET'])
-def query_records():
-    _id = request.args.get('_id')
-    asset = Asset.objects(_id=_id).first()
+@app.route('/assets/', methods=['GET'])
+def query_assets():
+    id = request.args.get('id')
+    asset = Asset.objects(_id=id).first()
     if not asset:
-        return jsonify({'error': 'data not found'})
+        return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
-        return jsonify(asset.to_json())
+        return Response(asset.to_json(), mimetype="application/json", status=200)
 
+#http://localhost:5002/assets/62b1928c-7331-02a3-bc74-3dba18ca91a3
 #
-#http://localhost:5002/objects/ee349ca0-f8aa-4b83-9fc6-86d727399914
-#
-@app.route('/objects/<id>')
-def get_one_object(id: str):
+@app.route('/assets/<id>')
+def get_one_assets(id: str):
     asset = Asset.objects.get_or_404(_id=id)
     return asset.to_json(), 200
 
+#TODO        
+# List Asset Categories
+
+#r = requests.get(url=URL+'categories')
+#r.text
 #
-#http://localhost:5002/all_objects
+@app.route('/categories', methods=['GET'])
+def query_categories():
+    pipeline = [{'$group': 
+                  { '_id': {'categoryId': '$categoryId'}
+                  }
+                }]
+    asset = Asset.objects().aggregate(pipeline)
+    print(list(asset))
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(asset, mimetype="application/json", status=200)
+
+#TODO
 #
-@app.route('/all_objects')
-def get_all_objects():
-    asset = Asset.objects()
+#http://localhost:5002/assets/62b1928c-7331-02a3-bc74-3dba18ca91a3
+#
+@app.route('/categories')
+def get_categories(id: str):
+    asset = Asset.objects.aggregate([{'$group': { 'categoryId': '$categoryId'}}])
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(asset, status=200)
+#POINTS
+# Retrieve a Point     
+
+#r = requests.get(url=URL+'points/', params = {"id": "0fcd55ad-251d-4111-bed9-de32c7addb52"})
+#r.text
+#
+@app.route('/points/', methods=['GET'])
+def query_points():
+    id = request.args.get('id')
+    asset = Asset.objects().points.filter(id=id)
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(asset.to_json(), mimetype="application/json", status=200)
+
+#http://localhost:5002/points/0fcd55ad-251d-4111-bed9-de32c7addb52
+#
+@app.route('/points/<id>')
+def get_one_points(id: str):
+    asset = Asset.objects().points.filter(id=id)
     return asset.to_json(), 200
+
+
+###########################    
+#PUTs
+###########################  
     
 #
 #r = requests.put('http://localhost:5002/update', json = {"_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914", "fan": "n"})
@@ -229,6 +290,10 @@ def create_record():
     else:
         asset.update(**record)
         return jsonify(asset.to_json())
+
+###########################    
+#POSTs
+###########################  
 #
 #HP_json = '{ "_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914", "modelId": "Unitary HP", "equip": "m", "heatPump": "m", "twinId": "6b25c3c7-39e4-4be7-84a9-17e80feecaf5"}'
 #r = requests.post('http://localhost:5002/', data = HP_json)
