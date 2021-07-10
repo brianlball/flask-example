@@ -73,6 +73,27 @@ class Asset(db.DynamicDocument):
     parentId = db.StringField()
     assetParameters = db.EmbeddedDocumentListField(AssetParameters)
 
+class Insight(db.DynamicDocument):
+    _id = db.StringField()
+    id = db.StringField(db_field='id')
+    sequenceNumber = db.StringField()
+    floorCode = db.StringField()
+    equipmentId = db.StringField()
+    type = db.StringField()
+    name = db.StringField()
+    priority = db.IntField()
+    status = db.StringField()
+    state = db.StringField()
+    occurredDate = db.StringField()
+    updatedDate = db.StringField()
+    externalId = db.StringField()
+    externalStatus = db.StringField()
+    externalMetadata = db.StringField()
+    customerId = db.StringField()
+    siteId = db.StringField()
+    description = db.StringField()
+    createdDate = db.StringField()
+    detectedDate = db.StringField()
 
 #asset4 = Asset(_id = "62b1928c-7331-02a3-bc74-3dba18ca91a2",
 #                modelId = "dtmi:com:willowinc:FanPoweredBox;1",
@@ -172,11 +193,23 @@ for dt in data:
                 setattr(asset, key, dt[key])
 
     asset.save()
-###########################    
-#GETs
-###########################
+    
+f = open('insights.json',)
+data = json.load(f)
+f.close()
+            
+for dt in data:
+    insight = Insight()
+    insight._id = dt['id']
+    for key in dt:
+        if key != "id":
+            print('INSIGHT: %s: %s'%(key,dt[key]))
+            setattr(insight, key, dt[key])
+    insight.save()
+
 
 # All Assets
+
 #http://localhost:5002/all_assets
 #
 @app.route('/all_assets')
@@ -265,9 +298,8 @@ def get_categories():
     else:
         return Response(json.dumps(asset), mimetype="application/json", status=200)
 
-
-
 #POINTS
+
 # List Points (give asset Id and get points)     
 #http://localhost:5002/points?id=62b1928c-7331-02a3-bc74-3dba18ca91a12
 #r = requests.get(url=URL+'points', params = {"id": "62b1928c-7331-02a3-bc74-3dba18ca91a12"})
@@ -291,7 +323,7 @@ def find_assets_points():
         return Response(json.dumps(return_points), mimetype="application/json", status=200)
 
 
-#Retrieve a Point (give point id and get it)
+# Retrieve a Point (give point id and get it)
 
 #r = requests.get(url=URL+'points/', params = {"id": "0fcd55ad-251d-4111-bed9-de32c7addb52"})
 #r.text
@@ -337,7 +369,7 @@ def get_one_point(id: str):
                 else:
                     return Response({'POINT Not Found'}, mimetype="application/json", status=404)
 
-        
+# INSIGHTS        
 
 ###########################    
 #PUTs
