@@ -437,67 +437,33 @@ def update_insight(id: str):
 
 # Delete an insight
 
+#
+#r = requests.delete(url=URL+'insights/'+InsightId, params = {"_id": "8cf1743b-fcb7-44c8-9b6d-0038323ba9e5"})
+#
+@app.route('/insights/<id>', methods=['DELETE'])
+def delete_insight(id: str):
+    insight = Insight.objects(_id=id)
+    if not insight:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        insight.delete()
+        return Response({'Insight Deleted'}, mimetype="application/json", status=204)
 
 # Update an insight state
 
-
-
-    
-#
-#r = requests.put('http://localhost:5002/update', json = {"_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914", "fan": "n"})
-#THIS CHANGES 'fan' -> n'
-#
-@app.route('/update', methods=['PUT'])
-def update_object():
-    body = request.get_json()
-    _id = body['_id']
-    asset = Asset.objects(_id=_id)
-    if not asset:
-        return jsonify({'error': 'data were not found'})
-    else:
-        asset.update(**body)
-        return jsonify(asset.to_json())
-#
-##HP_json = '{ "_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914", "modelId": "Unitary HP", "fan": "m", "heatPump": "m", "twinId": "6b25c3c7-39e4-4be7-84a9-17e80feecaf5"}'
-#r = requests.put('http://localhost:5002/', data = HP_json)
-# THIS ADDS 'fan: m' THRU UPDATE
-#
-@app.route('/', methods=['PUT'])
-def create_record():
+#update_json = '{"state": "inactive"}'
+#InsightId = "8cf1743b-fcb7-44c8-9b6d-0038323ba9e5"
+#r = requests.put(url=URL+'insights/'+InsightId, data = update_json)
+@app.route('/insights/<id>/state', methods=['PUT'])
+def update_insight_state(id: str):
     record = json.loads(request.data)
-    _id = record['_id']
-    asset = Asset.objects(_id=_id)
-    if not asset:
+    insight = Insight.objects(_id=id)
+    if not insight:
         return jsonify({'error': 'data not found'})
     else:
-        asset.update(**record)
-        return jsonify(asset.to_json())
+        insight.update(**record)
+        return jsonify(insight.to_json())
 
-###########################    
-#POSTs
-###########################  
-#
-#HP_json = '{ "_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914", "modelId": "Unitary HP", "equip": "m", "heatPump": "m", "twinId": "6b25c3c7-39e4-4be7-84a9-17e80feecaf5"}'
-#r = requests.post('http://localhost:5002/', data = HP_json)
-#
-@app.route('/', methods=['POST'])
-def update_record():
-    record = json.loads(request.data)
-    print(record)
-    asset = Asset(**record).save()
-    return jsonify(asset.to_json())
-#
-#r = requests.delete('http://localhost:5002/', params = {"_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914"})
-#
-@app.route('/', methods=['DELETE'])
-def delete_record():
-    _id = request.args.get('_id')
-    asset = Asset.objects(_id=_id)
-    if not asset:
-        return jsonify({'error': 'data not found'})
-    else:
-        asset.delete()
-    return jsonify(asset.to_json())
 
 if __name__ == '__main__':
     # run app in debug mode on port 5001
