@@ -415,14 +415,25 @@ def query_insights(id: str):
 #r = requests.post(url=URL+'insights', data = insight_json)
 #
 @app.route('/insights', methods=['POST'])
-def update_insight():
+def create_insight():
     record = json.loads(request.data)
     print(record)
     insight = Insight(**record).save()
     return jsonify(insight.to_json())
 
 # Update an insight
-
+#update_json = '{"name": "string","description": "string","priority": 0,"state": "active","occurredDate": "2019-08-24T14:15:22Z","detectedDate": "2019-08-24T14:15:22Z","externalId": "string","externalStatus": "string","externalMetadata": "string"}'
+#InsightId = "8cf1743b-fcb7-44c8-9b6d-0038323ba9e5"
+#r = requests.put(url=URL+'insights/'+InsightId, data = update_json)
+@app.route('/insights/<id>', methods=['PUT'])
+def update_insight(id: str):
+    record = json.loads(request.data)
+    insight = Insight.objects(_id=id)
+    if not insight:
+        return jsonify({'error': 'data not found'})
+    else:
+        insight.update(**record)
+        return jsonify(insight.to_json())
 
 # Delete an insight
 
