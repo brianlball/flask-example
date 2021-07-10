@@ -215,7 +215,10 @@ for dt in data:
 @app.route('/all_assets')
 def get_all_assets():
     asset = Asset.objects()
-    return asset.to_json(), 200
+    if not asset:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(asset.to_json(), mimetype="application/json", status=200)
 
 # Retrieve an Asset (send asset ID)    
 
@@ -371,9 +374,63 @@ def get_one_point(id: str):
 
 # INSIGHTS        
 
-###########################    
-#PUTs
-###########################  
+# List Insights
+
+#http://localhost:5002/insights
+#r = requests.get(url=URL+'insights')
+#
+@app.route('/insights')
+def get_all_insights():
+    insights = Insight.objects()
+    if not insights:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(insights.to_json(), mimetype="application/json", status=200)
+
+# Retrieve an Insights (send insight ID)    
+
+#r = requests.get(url=URL+'insights', params = {"id": "8cf1743b-fcb7-44c8-9b6d-0038323ba9e5"})
+#r.text
+#
+@app.route('/insights/', methods=['GET'])
+def get_insights():
+    id = request.args.get('id')
+    insight = Insight.objects(_id=id).first()
+    if not insight:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(insight.to_json(), mimetype="application/json", status=200)
+
+@app.route('/insights/<id>')
+def query_insights(id: str):
+    insight = Insight.objects(_id=id).first()
+    if not insight:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        return Response(insight.to_json(), mimetype="application/json", status=200)
+
+# Create an Insight
+
+#insight_json = '{"id": "8cf1743b-fcb7-44c8-9b6d-0038323ba9e4","sequenceNumber": "av-I-464","floorCode": "L010","equipmentId": "6be53768-811e-4db8-baee-471a01498df7","type": "fault","name": "258adba7","priority": 3,"status": "inProgress","state": "active","occurredDate": "2020-05-28T00:33:02.836Z","updatedDate": "2020-08-28T13:46:01.919Z","externalId": "20200428_d4b43edf","externalStatus": "active","externalMetadata": "string","customerId": "3fc260f3-3e91-470b-8285-15a11c799491","siteId": "1218614a-9822-43c5-94ca-1ecc29ab80b0","description": "Chilled Water Pump CWP-01.1 is running when Chiller CH-01 is off.","createdDate": "2020-05-28T01:25:02.881Z","detectedDate": "2020-05-28T01:02:02.836Z"}'
+#r = requests.post(url=URL+'insights', data = insight_json)
+#
+@app.route('/insights', methods=['POST'])
+def update_insight():
+    record = json.loads(request.data)
+    print(record)
+    insight = Insight(**record).save()
+    return jsonify(insight.to_json())
+
+# Update an insight
+
+
+# Delete an insight
+
+
+# Update an insight state
+
+
+
     
 #
 #r = requests.put('http://localhost:5002/update', json = {"_id": "ee349ca0-f8aa-4b83-9fc6-86d727399914", "fan": "n"})
