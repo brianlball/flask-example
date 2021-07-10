@@ -418,8 +418,11 @@ def query_insights(id: str):
 def create_insight():
     record = json.loads(request.data)
     print(record)
-    insight = Insight(**record).save()
-    return jsonify(insight.to_json())
+    if not record:
+        return Response({'Not Found'}, mimetype="application/json", status=404)
+    else:
+        insight = Insight(**record).save()
+        return Response(insight.to_json(), mimetype="application/json", status=200)
 
 # Update an insight
 #update_json = '{"name": "string","description": "string","priority": 0,"state": "active","occurredDate": "2019-08-24T14:15:22Z","detectedDate": "2019-08-24T14:15:22Z","externalId": "string","externalStatus": "string","externalMetadata": "string"}'
@@ -430,10 +433,10 @@ def update_insight(id: str):
     record = json.loads(request.data)
     insight = Insight.objects(_id=id)
     if not insight:
-        return jsonify({'error': 'data not found'})
+        return Response({'Insight not found'}, mimetype="application/json", status=404)
     else:
         insight.update(**record)
-        return jsonify(insight.to_json())
+        return Response(insight.to_json(), mimetype="application/json", status=200)
 
 # Delete an insight
 
@@ -459,7 +462,7 @@ def update_insight_state(id: str):
     record = json.loads(request.data)
     insight = Insight.objects(_id=id)
     if not insight:
-        return jsonify({'error': 'data not found'})
+        return Response({'Insight not found'}, mimetype="application/json", status=404)
     else:
         insight.update(**record)
         return jsonify(insight.to_json())

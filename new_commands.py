@@ -93,8 +93,17 @@ if r.status_code != 204:
     warnings.warn(f"Unexpected put error: {r.status_code}")
 print("<Response [204]> means success")
 print(r)
+
+print("create an insight") 
+insight_json = '{"_id": "8cf1743b-fcb7-44c8-9b6d-0038323ba9e5","sequenceNumber": "av-I-464","floorCode": "L010","equipmentId": "6be53768-811e-4db8-baee-471a01498df7","type": "fault","name": "258adba7","priority": 3,"status": "inProgress","state": "active","occurredDate": "2020-05-28T00:33:02.836Z","updatedDate": "2020-08-28T13:46:01.919Z","externalId": "20200428_d4b43edf","externalStatus": "active","externalMetadata": "string","customerId": "3fc260f3-3e91-470b-8285-15a11c799491","siteId": "1218614a-9822-43c5-94ca-1ecc29ab80b0","description": "Chilled Water Pump CWP-01.1 is running when Chiller CH-01 is off.","createdDate": "2020-05-28T01:25:02.881Z","detectedDate": "2020-05-28T01:02:02.836Z"}'
+r = requests.post(url=URL+'insights', data = insight_json)
+if r.status_code != 200:
+    warnings.warn(f"Unexpected put error: {r.status_code}")
+print("<Response [200]> means success")
+print(r)
 print(r.json())
 
+print("update an insight state")
 update_json = '{"state": "inactive"}'
 InsightId = "8cf1743b-fcb7-44c8-9b6d-0038323ba9e5"
 r = requests.put(url=URL+'insights/'+InsightId, data = update_json)
