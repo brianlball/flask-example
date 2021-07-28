@@ -3,6 +3,7 @@ import json
 from flask import Flask, request, jsonify, Response
 from flask_mongoengine import MongoEngine
 from bson import json_util
+import uuid
 
 # create the Flask app
 app = Flask(__name__)
@@ -74,10 +75,9 @@ class Asset(db.DynamicDocument):
     assetParameters = db.EmbeddedDocumentListField(AssetParameters)
 
 class Insight(db.DynamicDocument):
-    _id = db.StringField()
-    id = db.StringField(db_field='id')
+    id = db.StringField(primary_key=True)
     sequenceNumber = db.StringField()
-    floorCode = db.StringField()
+    floorCode = db.StringField(default='av-I-466')
     equipmentId = db.StringField()
     type = db.StringField()
     name = db.StringField()
@@ -200,7 +200,7 @@ f.close()
             
 for dt in data:
     insight = Insight()
-    insight._id = dt['id']
+    insight.id = dt['id']
     for key in dt:
         if key != "id":
             print('INSIGHT: %s: %s'%(key,dt[key]))
@@ -377,7 +377,7 @@ def get_one_point(id: str):
 # List Insights
 
 #http://localhost:5002/insights
-#r = requests.get(url=URL+'insights')
+#r = requests.get(url=URL+'/sites/<id>/insights')
 #
 @app.route('/insights')
 def get_all_insights():
@@ -401,7 +401,7 @@ def get_insights():
     else:
         return Response(insight.to_json(), mimetype="application/json", status=200)
 
-@app.route('/insights/<id>')
+@app.route('/sites/siteId/insights/<id>')
 def query_insights(id: str):
     insight = Insight.objects(_id=id).first()
     if not insight:
@@ -421,6 +421,28 @@ def create_insight():
     if not record:
         return Response({'Not Found'}, mimetype="application/json", status=404)
     else:
+        id = record.get('id')
+        print('id: %s'%(id))
+        if not id:
+            new_uuid = str(uuid.uuid4())
+            record['id'] = new_uuid
+        sequenceNumber = record.get('sequenceNumber')
+        print('sequenceNumber: %s'%(sequenceNumber))
+        if not sequenceNumber:
+            record['sequenceNumber'] = 'av-I-466'
+        status = record.get('status')
+        print('status: %s'%(status))
+        if not status:
+            record['status'] = 'default'
+        updatedDate = record.get('updatedDate')
+        print('updatedDate: %s'%(updatedDate))
+        if not updatedDate:
+            record['updatedDate'] = 'default'
+        siteId = record.get('siteId')
+        print('siteId: %s'%(siteId))
+        if not siteId:
+            record['siteId'] = '1218614a-9822-43c5-94ca-1ecc29ab80b0'
+        print(record)
         insight = Insight(**record).save()
         return Response(insight.to_json(), mimetype="application/json", status=200)
 
